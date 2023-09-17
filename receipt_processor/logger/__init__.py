@@ -43,12 +43,15 @@ def get_logger(
     # prevent duplicate handlers
     streamhandler_exists = False
     for handler in logger.handlers:
-        if type(handler) == logging.StreamHandler:
+        if isinstance(handler, logging.StreamHandler):
             streamhandler_exists = True
 
     if not streamhandler_exists:
         streamHandler = logging.StreamHandler()
-        streamFormatter = logging.Formatter('[%(levelname)s]: %(request_id)s || %(asctime)s || %(filename)s:%(lineno)d || %(message)s')
+        streamFormatter = logging.Formatter(
+            '[%(levelname)s]: %(request_id)s || %(asctime)s'
+            ' || %(filename)s:%(lineno)d || %(message)s'
+        )
         streamHandler.setFormatter(streamFormatter)
         streamHandler.setLevel(level)
         logger.addHandler(streamHandler)

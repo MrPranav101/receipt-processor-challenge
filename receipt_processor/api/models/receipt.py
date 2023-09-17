@@ -11,7 +11,7 @@ class Receipt(BaseModel):
     retailer: str = Field(
         ...,
         example="Target",
-        regex=r"^\S+$",
+        pattern=r"^\S+$",
         description="The name of the retailer or store the receipt is from."
     )
     puchase_date: str = Field(
@@ -24,29 +24,29 @@ class Receipt(BaseModel):
         ...,
         example="12:00:00",
         alias="purchaseTime",
-        regex=r'^([01]\d|2[0-3]):([0-5]\d)$',
+        pattern=r'^([01]\d|2[0-3]):([0-5]\d)$',
         description="The time of the purchase printed on the receipt. 24-hour time expected.",
     )
     items: List[Item] = Field(
         ...,
-        example=[Item(short_description="Mountain Dew 12PK", price=6.49)],
+        example=[Item(short_description="Mountain Dew 12PK", price="6.49")],
         description="A list of items purchased on the receipt."
     )
     total: str = Field(
         ...,
         example="6.49",
-        regex=r"^\d+\.\d{2}$",
+        pattern=r"^\d+\.\d{2}$",
         description="The total price payed for this receipt."
     )
 
-    @validator("birthdate", pre=True, always=True)
+    @validator("puchase_date", pre=True, always=True)
     def parse_purchase_date(cls, value):
         return datetime.strptime(
             value,
             "%Y-%m-%d"
         ).date()
 
-    @validator("birthdate", pre=True, always=True)
+    @validator("purchase_time", pre=True, always=True)
     def parse_purchase_time(cls, value):
         return datetime.strptime(
             value,

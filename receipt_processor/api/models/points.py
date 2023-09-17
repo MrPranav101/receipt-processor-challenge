@@ -1,6 +1,4 @@
-from decimal import Decimal
-
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 
 class Points(BaseModel):
