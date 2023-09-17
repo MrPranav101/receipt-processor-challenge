@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import date, time
+from decimal import Decimal
 from typing import List
 
 from pydantic import BaseModel, Field, validator
-from decimal import Decimal
 
 from receipt_processor.api.models.item import Item
 
@@ -14,17 +14,16 @@ class Receipt(BaseModel):
         pattern=r"^\S+$",
         description="The name of the retailer or store the receipt is from."
     )
-    puchase_date: str = Field(
+    purchase_date: date = Field(
         ...,
         example="2021-01-01",
         alias="purchaseDate",
         description="The date of the purchase printed on the receipt.",
     )
-    purchase_time: str = Field(
+    purchase_time: time = Field(
         ...,
-        example="12:00:00",
+        example="12:00",
         alias="purchaseTime",
-        pattern=r'^([01]\d|2[0-3]):([0-5]\d)$',
         description="The time of the purchase printed on the receipt. 24-hour time expected.",
     )
     items: List[Item] = Field(
@@ -39,23 +38,9 @@ class Receipt(BaseModel):
         description="The total price payed for this receipt."
     )
 
-    @validator("puchase_date", pre=True, always=True)
-    def parse_purchase_date(cls, value):
-        return datetime.strptime(
-            value,
-            "%Y-%m-%d"
-        ).date()
-
-    @validator("purchase_time", pre=True, always=True)
-    def parse_purchase_time(cls, value):
-        return datetime.strptime(
-            value,
-            "%H:%M"
-        ).time()
-
     @validator("total", pre=True, always=True)
     def validate_total(cls, value):
-        return Decimal(value)
+        return Decimal(value, decimal_places=2)
 
 
 class ReceiptResponse(BaseModel):

@@ -1,6 +1,6 @@
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 
-from pydantic import BaseModel, Field, validator, condecimal
+from pydantic import BaseModel, Field, validator
 
 
 class Item(BaseModel):
@@ -17,6 +17,12 @@ class Item(BaseModel):
         description="The total price payed for this item."
     )
 
-    @validator("price", always=True)
-    def validate_price(cls, value):
-        return Decimal(value)
+    @validator('price', always=True)
+    def string_to_decimal(cls, value):
+        try:
+            return Decimal(value)
+        except InvalidOperation:
+            raise ValueError('Invalid decimal value')
+
+    class Config:
+        frozen = True

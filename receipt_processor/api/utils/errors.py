@@ -1,7 +1,7 @@
 from fastapi.responses import JSONResponse
 
 
-def in_between(min_inclusive: int, max_exclusive: int, status_code: int):
+def in_between(min_inclusive: int, max_exclusive: int, status_code: int) -> bool:
     return min_inclusive <= status_code < max_exclusive
 
 
