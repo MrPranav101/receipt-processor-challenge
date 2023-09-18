@@ -20,6 +20,10 @@ def set_request_id(request_id: str = None, generate=False) -> None:
     request_id_var.set(request_id)
 
 
+def get_request_id() -> str:
+    return request_id_var.get(None)
+
+
 def get_logger(
     name: str,
     log_level: str = 'DEBUG',

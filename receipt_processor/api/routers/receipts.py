@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, Request
+from fastapi.responses import JSONResponse
 
 from receipt_processor.api.models import receipt, points
 from receipt_processor.api.utils.json import read_json_file
 from receipt_processor.api.utils.headers import optional_headers
 from receipt_processor.api.utils.errors import server_error, user_error
 from receipt_processor.service.processor import ReceiptProcessor
+from receipt_processor.logger import get_request_id
 from receipt_processor.db import crud
 
 
@@ -33,9 +35,14 @@ router = APIRouter(
 async def process(request: Request, receipt_obj: receipt.Receipt):
     try:
         id = await ReceiptProcessor(receipt_obj).process()
-        return {
-            "id": id
-        }
+        return JSONResponse(
+            content={
+                "id": id
+            },
+            headers={
+                "x-request-id": get_request_id()
+            },
+        )
     except Exception as e:
         request.app.state.logger.exception(f"logging exception: {e}")
         return server_error(
@@ -61,7 +68,14 @@ async def process(request: Request, receipt_obj: receipt.Receipt):
 )
 async def result(request: Request, id: str):
     try:
-        return {'points': await crud.points.get_points_sum(id)}
+        return JSONResponse(
+            content={
+                'points': await crud.points.get_points_sum(id)
+            },
+            headers={
+                "x-request-id": get_request_id()
+            },
+        )
     except ValueError as e:
         request.app.state.logger.error('An error occurred while trying'
                                        f' to pull the results for task_id {id}, error: {e}')
