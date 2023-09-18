@@ -5,7 +5,7 @@ from receipt_processor.api.utils.json import read_json_file
 from receipt_processor.api.utils.headers import optional_headers
 from receipt_processor.api.utils.errors import server_error, user_error
 from receipt_processor.service.processor import ReceiptProcessor
-from receipt_processor.db.crud.points import get_points_sum
+from receipt_processor.db import crud
 
 
 router = APIRouter(
@@ -61,7 +61,7 @@ async def process(request: Request, receipt_obj: receipt.Receipt):
 )
 async def result(request: Request, id: str):
     try:
-        return {'points': await get_points_sum(id)}
+        return {'points': await crud.points.get_points_sum(id)}
     except ValueError as e:
         request.app.state.logger.error('An error occurred while trying'
                                        f' to pull the results for task_id {id}, error: {e}')
@@ -70,6 +70,7 @@ async def result(request: Request, id: str):
             message=f'No receipt ID: {id}'
         )
     except Exception as e:
+        print(e)
         request.app.state.logger.error('An error occurred while trying'
                                        f' to pull the results for task_id {id}, error: {e}')
         return server_error(
