@@ -7,13 +7,13 @@ class Item(BaseModel):
     short_description: str = Field(
         ...,
         alias="shortDescription",
-        example="Mountain Dew 12PK",
+        json_schema_extra={"example": "Mountain Dew 12PK"},
         pattern=r"^[\w\s\-]+$",
         description="The Short Product Description for the item."
     )
     price: str = Field(
         ...,
-        example="6.49",
+        json_schema_extra={"example": "6.49"},
         pattern=r"^\d+\.\d{2}$",
         description="The total price payed for this item."
     )
