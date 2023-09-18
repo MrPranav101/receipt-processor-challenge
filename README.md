@@ -20,8 +20,14 @@ sqlite because it is a very simple database that is easy to use and does not req
 
 The project is split into 3 main parts:
 1. The database
+   - I use sqlalchemy to create the database and the tables.
 2. The API
 3. The business logic/ Service Layer
 
 ## Testing
 I am using pytest for testing. To run the tests run `python -m pytest` in the root directory of the project (given you have python and the dependencies installed).
+
+
+## Logging
+I am using the python logging library to log errors and warnings. The logs are output to stdout and stderr.
+I also add an x-request-id to the logs so that it is easier to track a request through the logs.
