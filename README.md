@@ -22,6 +22,8 @@ I chose to implement this project using Python, FastAPI and sqlite.
 
 FastAPI because it is a very fast and easy to use for creating RESTful APIs. And it comes with automatic swagger generation :)
 
+FastAPI also comes with Pydantic which is a great library for validating data. I use it to validate the data that is sent to the API (regex, data, time and datatype validations).
+
 sqlite because it is a very simple database that is easy to use and does not require any setup.
 
 The project is split into 3 main parts:
