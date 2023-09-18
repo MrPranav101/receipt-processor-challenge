@@ -6,4 +6,4 @@ services:
         context: ./receipt_processor
         dockerfile: Dockerfile
     ports:
-      - "8300:8080"
+      - "8080:8080"
