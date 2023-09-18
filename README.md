@@ -30,8 +30,16 @@ The project is split into 3 main parts:
 2. The API
 3. The business logic/ Service Layer
 
+
+## Assumptions
+
+1. Trim means removing the leading and trailing whitespace from the description of the item. Whitespaces in between will be kept.
+2. Points for time will not be reward for 2:00PM and 4:00PM but only between 2:00PM and 4:00PM.
+
 ## Testing
 I am using pytest for testing. To run the tests run `python -m pytest` in the root directory of the project (given you have python and the dependencies installed).
+
+Even if you don't run the tests, I would recommend looking at the tests to see what I am testing and my assumptions.
 
 
 ## Logging
