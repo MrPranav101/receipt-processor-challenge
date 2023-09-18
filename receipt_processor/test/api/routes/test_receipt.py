@@ -125,7 +125,7 @@ def test_items_price_failed(app):
 def test_get_points_success(app):
     with TestClient(app) as client:
         with patch(
-            'receipt_processor.db.crud.points.get_points_sum',
+            'receipt_processor.api.routers.receipts.get_points_sum',
             new_callable=AsyncMock,
             return_value=123
         ):
@@ -137,7 +137,7 @@ def test_get_points_success(app):
 
 def test_get_points_not_found(app):
     with TestClient(app) as client:
-        with patch("receipt_processor.db.crud.points.get_points_sum") as mock_get_points:
+        with patch("receipt_processor.api.routers.receipts.get_points_sum") as mock_get_points:
             mock_get_points.side_effect = AsyncMock(side_effect=ValueError("No receipt ID"))
             receipt_id = "non-existent-id"
             response = client.get(f"/receipts/{receipt_id}/points")

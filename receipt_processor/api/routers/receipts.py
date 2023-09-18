@@ -7,7 +7,7 @@ from receipt_processor.api.utils.headers import optional_headers
 from receipt_processor.api.utils.errors import server_error, user_error
 from receipt_processor.service.processor import ReceiptProcessor
 from receipt_processor.logger import get_request_id
-from receipt_processor.db import crud
+from receipt_processor.db.crud.points import get_points_sum
 
 
 router = APIRouter(
@@ -70,7 +70,7 @@ async def result(request: Request, id: str):
     try:
         return JSONResponse(
             content={
-                'points': await crud.points.get_points_sum(id)
+                'points': await get_points_sum(id)
             },
             headers={
                 "x-request-id": get_request_id()
