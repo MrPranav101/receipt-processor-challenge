@@ -12,7 +12,7 @@ If you can navigate to
 
 ## Implementation
 
-I chose to implement this project using FastAPI and sqlite. 
+I chose to implement this project using Python, FastAPI and sqlite. 
 
 FastAPI because it is a very fast and easy to use for creating RESTful APIs. And it comes with automatic swagger generation :)
 
