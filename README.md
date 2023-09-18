@@ -5,7 +5,7 @@ ingest a receipt and calculate points associated to the receipt.
 
 ## How to run
 
-Considering that docker is installed your machine `docker compose up --build` should be the easiest way to run the proct.
+Considering that docker is installed your machine `docker compose up --build` from the root directory should be the easiest way to run the project.
 
 If you can navigate to
 [localhost:8080/docs](localhost:8080/docs). You should see the swagger documentation for the API.
@@ -13,7 +13,7 @@ If you can navigate to
 ## Implementation
 
 I chose to implement this project using FastAPI and sqlite.
-FastAPI because it is a very fast and easy to use for creating RESTful APIs.
+FastAPI because it is a very fast and easy to use for creating RESTful APIs. And it comes with automatic swagger generation :)
 sqlite because it is a very simple database that is easy to use and does not require any setup.
 
 The project is split into 3 main parts:
