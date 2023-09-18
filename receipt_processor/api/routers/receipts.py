@@ -23,7 +23,9 @@ router = APIRouter(
         "description": "Bad Request",
         "content": {
                 "application/json": {
-                    "example": read_json_file('receipt_processor/api/data/receipt/bad_request.json')
+                    "example": read_json_file(
+                        'receipt_processor/api/data/receipt/bad_request.json'
+                    )
                 }
         }
     }},

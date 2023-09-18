@@ -1,22 +1,39 @@
+import pytest
+from unittest.mock import AsyncMock, patch
 from fastapi.testclient import TestClient
 
-from receipt_processor.api.app import app
 from receipt_processor.api.utils.json import read_json_file
 
 
-def test_receipt_success():
+def mock_init_db():
+    pass
+
+@pytest.fixture(autouse=True)
+def app():
+    with patch('receipt_processor.db.init_db', side_effect=mock_init_db):
+        from receipt_processor.api.app import app  # Import app here
+        yield app
+
+
+def test_receipt_success(app):
     with TestClient(app) as client:
-        response = client.post(
-            "/receipts/process",
-            headers={"x-request-id": "52a5fb55-a58e-4977-bd10-ddb3da1bc45b"},
-            json=read_json_file("receipt_processor/test/data/request/accepted.json"),
-        )
-        response_json = response.json()
-        assert response.status_code == 200
-        assert isinstance(response_json["id"], str)
+        with patch(
+            'receipt_processor.service.processor.ReceiptProcessor.process',
+            new_callable=AsyncMock,
+            return_value='b4a17947-4327-4fe3-9f76-3f599a4c8bfb'
+        ):
+            response = client.post(
+                "/receipts/process",
+                headers={"x-request-id": "52a5fb55-a58e-4977-bd10-ddb3da1bc45b"},
+                json=read_json_file("receipt_processor/test/data/request/accepted.json"),
+            )
+            response_json = response.json()
+            assert response.status_code == 200
+            assert response_json == {"id": "b4a17947-4327-4fe3-9f76-3f599a4c8bfb"}
+            assert isinstance(response_json["id"], str)
 
 
-def test_receipt_retailer_failed():
+def test_receipt_retailer_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -30,7 +47,7 @@ def test_receipt_retailer_failed():
         )
 
 
-def test_purchase_date_failed():
+def test_purchase_date_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -44,7 +61,7 @@ def test_purchase_date_failed():
         )
 
 
-def test_purchase_time_failed():
+def test_purchase_time_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -58,7 +75,7 @@ def test_purchase_time_failed():
         )
 
 
-def test_total_failed():
+def test_total_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -72,7 +89,7 @@ def test_total_failed():
         )
 
 
-def test_items_short_description_failed():
+def test_items_short_description_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -88,7 +105,7 @@ def test_items_short_description_failed():
         )
 
 
-def test_items_price_failed():
+def test_items_price_failed(app):
     with TestClient(app) as client:
         response = client.post(
             "/receipts/process",
@@ -102,3 +119,30 @@ def test_items_price_failed():
         assert response_json == read_json_file(
             "receipt_processor/test/data/response/items_price_failed.json"
         )
+
+
+def test_get_points_success(app):
+    with TestClient(app) as client:
+        with patch(
+            'receipt_processor.db.crud.points.get_points_sum',
+            new_callable=AsyncMock,
+            return_value=123
+        ):
+            receipt_id = "valid-receipt-id"
+            response = client.get(f"/receipts/{receipt_id}/points")
+            assert response.status_code == 200
+            assert response.json() == {"points": 123}
+
+
+def test_get_points_not_found(app):
+    with TestClient(app) as client:
+        with patch(
+            'receipt_processor.db.crud.points.get_points_sum',
+            new_callable=AsyncMock(),
+            side_effect=ValueError("No receipt ID")
+        ):
+            receipt_id = "non-existent-receipt-id"
+            response = client.get(f"/receipts/{receipt_id}/points")
+
+            assert response.status_code == 404
+            assert "No receipt ID" in response.json()["message"]

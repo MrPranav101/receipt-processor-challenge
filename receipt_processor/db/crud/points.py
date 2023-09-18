@@ -4,7 +4,7 @@ from receipt_processor.db import get_db_session
 from receipt_processor.db.models.receipt_points import Points
 
 
-async def get_points_sum(id: str) -> Points:
+async def get_points_sum(id: str) -> int:
     async with get_db_session() as session:
         stmt = select(Points).where(Points.id == id)
         result = await session.execute(stmt)
