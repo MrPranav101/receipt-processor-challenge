@@ -1,0 +1,33 @@
+{
+  "message": {
+    "detail": [
+      {
+        "type": "string_pattern_mismatch",
+        "loc": [
+          "body",
+          "items",
+          0,
+          "shortDescription"
+        ],
+        "msg": "String should match pattern '^[\\w\\s\\-]+$'",
+        "input": "Hello, World!",
+        "ctx": {
+          "pattern": "^[\\w\\s\\-]+$"
+        },
+        "url": "https://errors.pydantic.dev/2.3/v/string_pattern_mismatch"
+      }
+    ],
+    "body": {
+      "retailer": "Target",
+      "purchaseDate": "2021-01-01",
+      "purchaseTime": "12:00",
+      "items": [
+        {
+          "shortDescription": "Hello, World!",
+          "price": "6.49"
+        }
+      ],
+      "total": "6.49"
+    }
+  }
+}

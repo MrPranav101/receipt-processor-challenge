@@ -25,4 +25,3 @@ logger = get_logger(
 )
 
 app.add_middleware(ContextMiddleware)
-app.router.responses = {404: {"description": "Not found"}}

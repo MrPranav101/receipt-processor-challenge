@@ -1,0 +1,44 @@
+{
+    "message": {
+      "detail": [
+        {
+          "type": "time_parsing",
+          "loc": [
+            "body",
+            "purchaseTime"
+          ],
+          "msg": "Input should be in a valid time format, invalid timezone sign",
+          "input": "12:0000",
+          "ctx": {
+            "error": "invalid timezone sign"
+          },
+          "url": "https://errors.pydantic.dev/2.3/v/time_parsing"
+        },
+        {
+          "type": "string_pattern_mismatch",
+          "loc": [
+            "body",
+            "total"
+          ],
+          "msg": "String should match pattern '^\\d+\\.\\d{2}$'",
+          "input": "6.409",
+          "ctx": {
+            "pattern": "^\\d+\\.\\d{2}$"
+          },
+          "url": "https://errors.pydantic.dev/2.3/v/string_pattern_mismatch"
+        }
+      ],
+      "body": {
+        "retailer": "Target",
+        "purchaseDate": "2021-01-01",
+        "purchaseTime": "12:0000",
+        "items": [
+          {
+            "shortDescription": "Mountain Dew 12PK",
+            "price": "6.49"
+          }
+        ],
+        "total": "6.409"
+      }
+    }
+  }

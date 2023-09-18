@@ -1,5 +1,5 @@
 import datetime
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 from uuid import uuid4
 
 from receipt_processor.api.models.receipt import Receipt
@@ -38,7 +38,7 @@ class ReceiptProcessor:
         """5 points for every two items on the receipt."""
         return 5 * (len(self.receipt.items) // 2)
 
-    def points_description(self, description: str):
+    def points_description(self, description: str, price: Decimal):
         """
         If the trimmed length of the item description
         is a multiple of 3, multiply the price by 0.2
@@ -48,13 +48,14 @@ class ReceiptProcessor:
         trimmed_description = description.strip()
         trimmed_description_len = len(trimmed_description)
         if trimmed_description_len % 3 == 0:
-            return int(Decimal('0.2') * Decimal(description))
+            product = Decimal('0.2') * price
+            return int(Decimal(product).to_integral_value(rounding=ROUND_HALF_UP))
         return 0
 
     def points_all_descriptions(self):
         points = 0
         for item in self.receipt.items:
-            points += self.points_description(item.short_description)
+            points += self.points_description(item.short_description, item.price)
         return points
 
     def points_day_purchased(self):
@@ -79,7 +80,7 @@ class ReceiptProcessor:
             line_items_len_points=self.points_line_items_len(),
             all_description_points=self.points_all_descriptions(),
             day_purchased_points=self.points_day_purchased(),
-            time_purchased_points=self.points_time_purchased(),   
+            time_purchased_points=self.points_time_purchased(),
         )
 
     async def process(self) -> str:

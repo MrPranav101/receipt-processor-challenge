@@ -1,0 +1,33 @@
+{
+  "message": {
+    "detail": [
+      {
+        "type": "string_pattern_mismatch",
+        "loc": [
+          "body",
+          "items",
+          0,
+          "price"
+        ],
+        "msg": "String should match pattern '^\\d+\\.\\d{2}$'",
+        "input": "6.409",
+        "ctx": {
+          "pattern": "^\\d+\\.\\d{2}$"
+        },
+        "url": "https://errors.pydantic.dev/2.3/v/string_pattern_mismatch"
+      }
+    ],
+    "body": {
+      "retailer": "Target",
+      "purchaseDate": "2021-01-01",
+      "purchaseTime": "12:00",
+      "items": [
+        {
+          "shortDescription": "Mountain Dew 12PK",
+          "price": "6.409"
+        }
+      ],
+      "total": "6.49"
+    }
+  }
+}

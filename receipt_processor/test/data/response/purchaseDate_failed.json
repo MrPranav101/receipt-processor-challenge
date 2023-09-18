@@ -1,0 +1,31 @@
+{
+    "message": {
+      "detail": [
+        {
+          "type": "date_from_datetime_parsing",
+          "loc": [
+            "body",
+            "purchaseDate"
+          ],
+          "msg": "Input should be a valid date or datetime, input is too short",
+          "input": "2021-01",
+          "ctx": {
+            "error": "input is too short"
+          },
+          "url": "https://errors.pydantic.dev/2.3/v/date_from_datetime_parsing"
+        }
+      ],
+      "body": {
+        "retailer": "Target",
+        "purchaseDate": "2021-01",
+        "purchaseTime": "12:00",
+        "items": [
+          {
+            "shortDescription": "Mountain Dew 12PK",
+            "price": "6.49"
+          }
+        ],
+        "total": "6.49"
+      }
+    }
+  }

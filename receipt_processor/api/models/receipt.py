@@ -1,5 +1,5 @@
 from datetime import date, time
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from typing import List
 
 from pydantic import BaseModel, Field, validator
@@ -28,7 +28,7 @@ class Receipt(BaseModel):
     )
     items: List[Item] = Field(
         ...,
-        example=[Item(short_description="Mountain Dew 12PK", price="6.49")],
+        example=[Item(shortDescription="Mountain Dew 12PK", price="6.49")],
         description="A list of items purchased on the receipt."
     )
     total: str = Field(
@@ -38,9 +38,12 @@ class Receipt(BaseModel):
         description="The total price payed for this receipt."
     )
 
-    @validator("total", pre=True, always=True)
-    def validate_total(cls, value):
-        return Decimal(value, decimal_places=2)
+    @validator("total", always=True)
+    def string_to_decimal(cls, value):
+        try:
+            return Decimal(value)
+        except InvalidOperation:
+            raise ValueError('Invalid decimal value')
 
 
 class ReceiptResponse(BaseModel):

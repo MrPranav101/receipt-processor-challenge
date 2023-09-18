@@ -1,5 +1,4 @@
 from fastapi import Request
-from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.openapi.utils import get_openapi
@@ -22,15 +21,6 @@ async def startup():
         await init_db()
     except Exception as e:
         app.state.logger.error(f"Failed to establish sql connection pool || Error: {e}")
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    app.state.logger.info(f"Shutting Down {APP_NAME}.")
-    try:
-        pass
-    except Exception as e:
-        app.state.logger.error(f"Failed to close a connection on shutdown || Error: {e}")
 
 
 @app.exception_handler(RequestValidationError)

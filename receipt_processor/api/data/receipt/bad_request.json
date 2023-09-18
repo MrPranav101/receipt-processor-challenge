@@ -1,0 +1,35 @@
+{
+    "message": {
+      "detail": [
+        {
+          "type": "string_pattern_mismatch",
+          "loc": [
+            "body",
+            "retailer"
+          ],
+          "msg": "String should match pattern '^\\S+$'",
+          "input": "Walgr eens",
+          "ctx": {
+            "pattern": "^\\S+$"
+          },
+          "url": "https://errors.pydantic.dev/2.3/v/string_pattern_mismatch"
+        }
+      ],
+      "body": {
+        "retailer": "Walgr eens",
+        "purchaseDate": "2022-01-02",
+        "purchaseTime": "08:13",
+        "total": "2.65",
+        "items": [
+          {
+            "shortDescription": "Pepsi - 12-oz",
+            "price": "1.25"
+          },
+          {
+            "shortDescription": "Dasani",
+            "price": "1.40"
+          }
+        ]
+      }
+    }
+  }

@@ -1,0 +1,12 @@
+{
+    "retailer": "Target",
+    "purchaseDate": "2021-01-01",
+    "purchaseTime": "12:0000",
+    "items": [
+      {
+        "shortDescription": "Mountain Dew 12PK",
+        "price": "6.49"
+      }
+    ],
+    "total": "6.409"
+  }

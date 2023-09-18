@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field, validator
 class Item(BaseModel):
     short_description: str = Field(
         ...,
+        alias="shortDescription",
         example="Mountain Dew 12PK",
         pattern=r"^[\w\s\-]+$",
         description="The Short Product Description for the item."
