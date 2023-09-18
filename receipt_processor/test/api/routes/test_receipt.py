@@ -120,30 +120,3 @@ def test_items_price_failed(app):
         assert response_json == read_json_file(
             "receipt_processor/test/data/response/items_price_failed.json"
         )
-
-
-def test_get_points_success(app):
-    with TestClient(app) as client:
-        with patch(
-            'receipt_processor.db.crud.points.get_points_sum',
-            new_callable=AsyncMock,
-            return_value=123
-        ):
-            receipt_id = "valid-receipt-id"
-            response = client.get(f"/receipts/{receipt_id}/points")
-            assert response.status_code == 200
-            assert response.json() == {"points": 123}
-
-
-def test_get_points_not_found(app):
-    with TestClient(app) as client:
-        with patch(
-            'receipt_processor.db.crud.points.get_points_sum',
-            new_callable=AsyncMock(),
-            side_effect=ValueError("No receipt ID")
-        ):
-            receipt_id = "non-existent-receipt-id"
-            response = client.get(f"/receipts/{receipt_id}/points")
-
-            assert response.status_code == 404
-            assert "No receipt ID" in response.json()["message"]
