@@ -10,6 +10,12 @@ Considering that docker is installed your machine `docker compose up --build` fr
 If you can navigate to
 [localhost:8080/docs](localhost:8080/docs). You should see the swagger documentation for the API.
 
+The database.db file is not stored as a volume so if you want to persist the data you will need to create a volume for it by adding the following to the `docker-compose.yml` file:
+```
+volumes:
+  - ./database.db:/source/database.db
+```
+
 ## Implementation
 
 I chose to implement this project using Python, FastAPI and sqlite. 
