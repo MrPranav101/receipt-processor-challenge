@@ -32,7 +32,6 @@ router = APIRouter(
 )
 async def process(request: Request, receipt_obj: receipt.Receipt):
     try:
-        print(receipt_obj)
         id = await ReceiptProcessor(receipt_obj).process()
         return {
             "id": id
