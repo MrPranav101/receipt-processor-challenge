@@ -70,6 +70,12 @@ def test_points_description_multiple_round_up():
     assert receipt.points_description("Walmar", Decimal('3.0')) == 1
 
 
+def test_points_description_trim_multiple_round_up():
+    valid_receipt = get_valid_receipt()
+    receipt = ReceiptProcessor(valid_receipt)
+    assert receipt.points_description("  Walm r  ", Decimal('3.0')) == 1
+
+
 def test_points_time_purchased_between():
     valid_receipt = get_valid_receipt()
     receipt = ReceiptProcessor(valid_receipt)
