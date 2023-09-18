@@ -8,6 +8,7 @@ from receipt_processor.api.utils.json import read_json_file
 def mock_init_db():
     pass
 
+
 @pytest.fixture(autouse=True)
 def app():
     with patch('receipt_processor.db.init_db', side_effect=mock_init_db):
