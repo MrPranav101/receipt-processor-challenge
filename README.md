@@ -36,7 +36,7 @@ The project is split into 3 main parts:
 ## Assumptions
 
 1. Trim means removing the leading and trailing whitespace from the description of the item. Whitespaces in between will be kept.
-2. Points for time will not be reward for 2:00PM and 4:00PM but only between 2:00PM and 4:00PM.
+2. Points for time will not be rewarded for 2:00PM and 4:00PM but only between 2:00PM and 4:00PM.
 
 ## Testing
 I am using pytest for testing. To run the tests run `python -m pytest` in the root directory of the project (given you have python and the dependencies installed).
